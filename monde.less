@@ -1,0 +1,211 @@
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	background-color: black;
+	color: white;
+	margin: 0;
+	font-family: arial;
+}
+
+a {
+	text-decoration: inherit;
+	color: inherit;
+}
+
+table {
+	color: inherit;
+}
+
+div#interface {
+	background: white;
+	color: black;
+	width: 960px;
+	min-height: 100%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+	padding: .5em;
+	font-size: 3em;
+	font-weight: bold;
+	background-color: #7D523F;
+	background-image: url(images/fondmonde.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+	text-shadow: .1em .1em .2em rgba(0, 0, 0, .5);
+}
+
+footer {
+	background-color: #d6c37d;
+	padding: 1em;
+	order: 1000;
+}
+
+h2 {
+	font-size: 2em;
+	font-weight: bold;
+	margin-bottom: .5em;
+}
+
+nav.principal {
+	background: #dbc8a7;
+	height: 2em;
+	&::after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+
+	& ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		height: 100%;
+	}
+
+	& li {
+		&:hover {
+			background-color: rgba(0, 0, 0, .05);
+		}
+		&.courant {
+			background-color: rgba(0,0,0,.1);
+		}
+		& > * {
+			color: rgba(0, 0, 0, 0.75);
+//			font-weight: bold;
+//			text-shadow: 0 1px rgba(255, 255, 255, 0.8);
+			padding: 0em 1em;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+		& > span {
+			text-shadow: none;
+			color: rgba(0, 0, 0, .3);
+		}
+		& > a {
+			height: 100%;
+		}
+	}
+
+}
+
+div.contenu {
+	padding: 1.5em;
+	flex: 1 0 0;
+}
+
+.options > a {
+	display: inline-block;
+	font-size: .8em;
+	width: 5.5em;
+	background: rgba(203, 203, 203, 1);
+	text-align: center;
+	margin: 0 .25em;
+	border-radius: 1em;
+	text-shadow: 0 1px white;
+	padding: 0 .25em;
+	height: 1.3em;
+	line-height: 1.3em;
+	&:hover {
+		background: rgba(203, 203, 0, 1);
+	}
+}
+
+table.liste {
+	width: 100%;
+	border-collapse: collapse;
+	& col.drapeau {
+		width: 32px;
+	}
+	& col.nom {}
+	& col.options {
+		width: 17em;
+	}
+	& thead {
+		background: hsl(18, 50%, 40%);
+		color: white;
+	}
+	& tbody > tr:nth-child(odd) {
+		background: rgba(128, 128, 128, .1);
+		background-color: #EAECCF;
+	}
+	& > tbody > tr:hover {
+		background: #ddf;
+	}
+	& td {
+		padding: .1em .5em;
+		&.options {
+			text-align: center;
+		}
+	}
+	& td,
+	& th {
+		border: 1px solid black;
+	}
+}
+
+table.details {
+	border: 1px solid black;
+	width: 35em;
+	& td,
+	& th {
+		padding: .2em .5em;
+	}
+	& th {
+		width: 10em;
+	}
+	& tbody > tr:nth-child(odd) {
+		background: rgba(128, 128, 255, .1);
+		background-color: hsl(64, 30%, 90%);
+	}
+	& > tbody th {
+		font-weight: bold;
+		text-align: right;
+		&:after {
+			content: " :";
+		}
+	}
+}
+
+img.drapeau {
+	vertical-align: middle;
+}
+
+span.erreur {
+	font-size: smaller;
+	color: red;
+}
+
+div.erreur {
+	right: 1em;
+	background: red;
+	color: white;
+	font-weight: bold;
+	padding: 1em;
+	border-radius: 1em;
+	box-shadow: .1em .1em .2em rgba(0, 0, 0, .5);
+	animation-name: fade;
+	animation-delay: 1s;
+	animation-duration: 2s;
+	animation-timing-function: ease-in;
+	animation-fill-mode: forwards;
+
+}
+
+@keyframes fade {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}

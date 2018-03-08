@@ -1,5 +1,8 @@
-/_fichiers export-ignore  
-/_solution export-ignore  
+/*_fichiers export-ignore  
+/*_solution export-ignore  
+/monde export-ignore  
+/monde_fichiers export-ignore  
+/monde_solution export-ignore  
 /_ini.php export-ignore  
 .gitattributes export-ignore  
 .gitignore export-ignore

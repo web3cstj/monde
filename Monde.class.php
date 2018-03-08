@@ -21,3 +21,9 @@ class Monde {
 		return self::$pdo;
 	}
 }
+function affichageErreur($nom, $erreurs) {
+	if (!isset($erreurs[$nom])) return '';
+	$resultat = '';
+	$resultat .= '<span class="erreur">* '.$erreurs[$nom].'</span>';
+	return $resultat;
+}

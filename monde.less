@@ -31,13 +31,16 @@ div#interface {
 
 header {
 	padding: .5em;
-	font-size: 3em;
 	font-weight: bold;
 	background-color: #7D523F;
 	background-image: url(images/fondmonde.jpg);
 	background-repeat: no-repeat;
 	background-position: center;
 	text-shadow: .1em .1em .2em rgba(0, 0, 0, .5);
+	h1 {
+		font-size: 4em;
+		margin: .25em;
+	}
 }
 
 footer {
@@ -45,10 +48,13 @@ footer {
 	padding: 1em;
 	order: 1000;
 }
-
+h1 {
+	margin: 0;
+}
 h2 {
 	font-size: 2em;
 	font-weight: bold;
+	margin-top: 0em;
 	margin-bottom: .5em;
 }
 
@@ -78,7 +84,7 @@ nav.principal {
 		}
 		& > * {
 			color: rgba(0, 0, 0, 0.75);
-//			font-weight: bold;
+			font-weight: bold;
 //			text-shadow: 0 1px rgba(255, 255, 255, 0.8);
 			padding: 0em 1em;
 			text-align: center;
@@ -86,13 +92,10 @@ nav.principal {
 			align-items: center;
 			justify-content: center;
 			text-align: center;
+			height: 100%;
 		}
 		& > span {
-			text-shadow: none;
-			color: rgba(0, 0, 0, .3);
-		}
-		& > a {
-			height: 100%;
+			text-shadow: 0 1px rgba(255, 255, 255, 0.6);
 		}
 	}
 
@@ -119,7 +122,9 @@ div.contenu {
 		background: rgba(203, 203, 0, 1);
 	}
 }
-
+table {
+	border-collapse: collapse;
+}
 table.liste {
 	width: 100%;
 	border-collapse: collapse;

@@ -27,7 +27,6 @@ div#interface {
 }
 header {
   padding: .5em;
-  font-size: 3em;
   font-weight: bold;
   background-color: #7D523F;
   background-image: url(images/fondmonde.jpg);
@@ -35,14 +34,22 @@ header {
   background-position: center;
   text-shadow: 0.1em 0.1em 0.2em rgba(0, 0, 0, 0.5);
 }
+header h1 {
+  font-size: 4em;
+  margin: .25em;
+}
 footer {
   background-color: #d6c37d;
   padding: 1em;
   order: 1000;
 }
+h1 {
+  margin: 0;
+}
 h2 {
   font-size: 2em;
   font-weight: bold;
+  margin-top: 0em;
   margin-bottom: .5em;
 }
 nav.principal {
@@ -69,18 +76,16 @@ nav.principal li.courant {
 }
 nav.principal li > * {
   color: rgba(0, 0, 0, 0.75);
+  font-weight: bold;
   padding: 0em 1em;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  height: 100%;
 }
 nav.principal li > span {
-  text-shadow: none;
-  color: rgba(0, 0, 0, 0.3);
-}
-nav.principal li > a {
-  height: 100%;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.6);
 }
 div.contenu {
   padding: 1.5em;
@@ -101,6 +106,9 @@ div.contenu {
 }
 .options > a:hover {
   background: #cbcb00;
+}
+table {
+  border-collapse: collapse;
 }
 table.liste {
   width: 100%;

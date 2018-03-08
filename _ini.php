@@ -2,10 +2,10 @@
 // Projet : monde
 $ini = array (
 	//Le titre qui s'affiche dans la liste
-	'titre' => 'Affichage des pays',
+	'titre' => 'Mes pays (gestion des pays)',
 
 	//Categories sous forme "Catégorie/Sous-Catégorie/..."
-	'categorie' => 'Exemples, exercices/Cours 10',
+	'categorie' => 'Exemples, exercices/Cours 7',
 
 	//Un préfixe à mettre devant le titre pour le tri "Cours 01 : "
 	'prefixe' => '',
@@ -18,7 +18,7 @@ $ini = array (
 	'source' => false,
 
 	//Booléen. Le dossier est-il visible dans la liste? Il reste tout de même accessible.
-	'visible' => false,
+	'visible' => true,
 
 	//Booléen. Y a-t-il des fichiers à télécharger?
 	'fichiers' => false,

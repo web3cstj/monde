@@ -5,7 +5,7 @@ $ini = array (
 	'titre' => 'Mes pays (gestion des pays)',
 
 	//Categories sous forme "Catégorie/Sous-Catégorie/..."
-	'categorie' => 'Exemples, exercices/Cours 7',
+	'categorie' => 'Exemples, exercices/Cours 07',
 
 	//Un préfixe à mettre devant le titre pour le tri "Cours 01 : "
 	'prefixe' => '',

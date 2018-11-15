@@ -4,12 +4,10 @@ class Monde {
 	static public function connect() {
 		if (self::$pdo === null) {
 			$host = 'localhost';
-			$username = 'root';
-			$password = '';
 			$dbname = 'monde';
 			$charset = 'utf8';
-			$dsn = "mysql:host=$host;charset=$charset;";
-			self::$pdo = new PDO($dsn, $username, $password);
+			$dsn = "sqlite:monde.sqlite";
+			self::$pdo = new PDO($dsn);
 			$rep = self::$pdo->exec('USE '.$dbname.';');
 			if ($rep === false) {
 				self::$pdo->exec('CREATE DATABASE IF NOT EXISTS '.$dbname.' DEFAULT CHARSET utf8;');

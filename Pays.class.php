@@ -4,6 +4,7 @@ class Pays {
 		$resultat = [];
 		// Récupération des données
 		$resultat['id'] = trim($source['id']);
+		$resultat['ISO'] = trim($source['ISO']);
 		$resultat['nom'] = trim($source['nom']);
 		$resultat['nom2'] = trim($source['nom2']);
 		$resultat['continent'] = trim($source['continent']);
@@ -74,11 +75,12 @@ class Pays {
 		$db = Monde::connect();
 
 		// Composition du SQL
-		$CHAMPS = "id, nom, nom2, continent, capitale, population, nomHabitants, superficie, densite, popUrbaine, frontieres, cotes, eauxTerritoriales, heure, moisFroids, moisFroidsTemp, moisChauds, moisChaudsTemp";
-		$VALUES = ":id, :nom, :nom2, :continent, :capitale, :population, :nomHabitants, :superficie, :densite, :popUrbaine, :frontieres, cotes=:cotes, :eauxTerritoriales, :heure, :moisFroids, :moisFroidsTemp, :moisChauds, moisChaudsTemp=:moisChaudsTemp";
+		$CHAMPS = "id, ISO, nom, nom2, continent, capitale, population, nomHabitants, superficie, densite, popUrbaine, frontieres, cotes, eauxTerritoriales, heure, moisFroids, moisFroidsTemp, moisChauds, moisChaudsTemp";
+		$VALUES = ":id, :ISO, :nom, :nom2, :continent, :capitale, :population, :nomHabitants, :superficie, :densite, :popUrbaine, :frontieres, cotes=:cotes, :eauxTerritoriales, :heure, :moisFroids, :moisFroidsTemp, :moisChauds, moisChaudsTemp=:moisChaudsTemp";
 		$SQL = "INSERT INTO pays ($CHAMPS) VALUES ($VALUES);";
 		$stmt = $db->prepare($SQL);
 		$stmt->bindParam(":id", $id);
+		$stmt->bindParam(":ISO", $ISO);
 		$stmt->bindParam(":nom", $nom);
 		$stmt->bindParam(":nom2", $nom2);
 		$stmt->bindParam(":continent", $continent);
@@ -116,11 +118,12 @@ class Pays {
 		$db = Monde::connect();
 
 		// Composition du SQL
-		$SET = "SET nom=:nom, nom2=:nom2, continent=:continent, capitale=:capitale, population=:population, nomHabitants=:nomHabitants, superficie=:superficie, densite=:densite, popUrbaine=:popUrbaine, frontieres=:frontieres, cotes=:cotes, eauxTerritoriales=:eauxTerritoriales, heure=:heure, moisFroids=:moisFroids, moisFroidsTemp=:moisFroidsTemp, moisChauds=:moisChauds, moisChaudsTemp=:moisChaudsTemp";
+		$SET = "SET ISO=:ISO, nom=:nom, nom2=:nom2, continent=:continent, capitale=:capitale, population=:population, nomHabitants=:nomHabitants, superficie=:superficie, densite=:densite, popUrbaine=:popUrbaine, frontieres=:frontieres, cotes=:cotes, eauxTerritoriales=:eauxTerritoriales, heure=:heure, moisFroids=:moisFroids, moisFroidsTemp=:moisFroidsTemp, moisChauds=:moisChauds, moisChaudsTemp=:moisChaudsTemp";
 		$WHERE = "WHERE id=:id";
 		$SQL = "UPDATE pays $SET $WHERE";
 		$stmt = $db->prepare($SQL);
 		$stmt->bindParam(":id", $id);
+		$stmt->bindParam(":ISO", $ISO);
 		$stmt->bindParam(":nom", $nom);
 		$stmt->bindParam(":nom2", $nom2);
 		$stmt->bindParam(":continent", $continent);
@@ -180,7 +183,7 @@ class Pays {
 		$db = Monde::connect();
 
 		// Composition du SQL
-		$SQL = "SELECT id, nom2 FROM pays ORDER BY nom2;";
+		$SQL = "SELECT id, ISO, nom2 FROM pays ORDER BY nom2;";
 		$resultat = $db->prepare($SQL);
 
 		// Exécution de la requête
@@ -195,14 +198,19 @@ class Pays {
 		$db = Monde::connect();
 
 		// Composition du SQL
-		$champs = "id, nom, nom2, continent, capitale, population, nomHabitants, superficie, densite, popUrbaine, frontieres, cotes, eauxTerritoriales, heure, moisFroids, moisFroidsTemp, moisChauds, moisChaudsTemp";
+		$champs = "id, ISO, nom, nom2, continent, capitale, population, nomHabitants, superficie, densite, popUrbaine, frontieres, cotes, eauxTerritoriales, heure, moisFroids, moisFroidsTemp, moisChauds, moisChaudsTemp";
 		if ($id == "alea") {
-			$SQL = "SELECT $champs FROM pays ORDER BY rand() LIMIT 1";
+			$SQL = "SELECT $champs FROM pays ORDER BY RANDOM() LIMIT 1";
+			//Version plus performante :
+			//SELECT * FROM table WHERE id IN (SELECT id FROM table ORDER BY RANDOM() LIMIT x)
 		} else {
-			$SQL = "SELECT $champs FROM pays WHERE id=:id";
+			$SQL = "SELECT $champs FROM pays WHERE id=:id OR ISO=:ISO";
 		}
 		$stmt = $db->prepare($SQL);
-		$stmt->bindParam(":id", $id);
+		if ($id !== "alea") {
+			$stmt->bindParam(":id", $id);
+			$stmt->bindParam(":ISO", $id);
+		}
 //		$stmt->bindColumn("id", $id);
 //		$stmt->bindColumn("nom", $nom);
 //		$stmt->bindColumn("nom2", $nom2);
@@ -229,7 +237,7 @@ class Pays {
 		} catch (PDOException $e) {
 			throw new Exception($e->getMessage());
 		}
-		if ($stmt->rowCount() == 0) {
+		if (false && $stmt->rowCount() == 0) {
 			header("location:index.php");
 			exit;
 		}
@@ -249,15 +257,14 @@ class Pays {
 		$resultat .= '<th>Options</th>';
 		$resultat .= '</thead>';
 		$resultat .= '<tbody>';
-		if ($stmt->rowCount() == 0) {
+		if (false && $stmt->rowCount() == 0) {
 			$resultat .= '<tr>';
 			$resultat .= '<td colspan="3">Aucun pays trouvé</td>';
 			$resultat .= '</tr>';
 		} else {
 			while (($pays = $stmt->fetch(PDO::FETCH_ASSOC)) != false) {
 				extract($pays);
-				$resultat .= '<tr>';
-				$resultat .= '<td><a href="details.php?id='.$id.'"><img class="drapeau" src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/'.strtolower($id).'.svg" alt="" height="16"/></a></td>';
+				$resultat .= '<td><a href="details.php?id='.$id.'"><img class="drapeau" src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/'.strtolower($ISO).'.svg" alt="" height="16"/></a></td>';
 				$resultat .= '<td><a href="details.php?id='.$id.'">'.$nom2.'</a></td>';
 				$resultat .= '<td class="options">';
 				$resultat .= '<a href="details.php?id='.$id.'">Détails</a>';
@@ -279,13 +286,13 @@ class Pays {
 			$resultat .= $erreurs['_global_'];
 		}
 		$resultat .= '<h2>'.$nom2.'</h2>';
-		$resultat .= '<img style="float:right;width:20em;border:1px solid black;" src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/'.strtolower($id).'.svg" alt="Drapeau"/>';
+		$resultat .= '<img style="float:right;width:20em;border:1px solid black;" src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/'.strtolower($ISO).'.svg" alt="Drapeau"/>';
 		$resultat .= '<form action="" method="post">';
 		$resultat .= '<table class="details">';
 		$resultat .= '<tbody>';
 		$resultat .= '<tr>';
 		$resultat .= '<th><label for="id">ISO</th>';
-		$resultat .= '<td>'.$id.'</td>';
+		$resultat .= '<td>'.$ISO.'</td>';
 		$resultat .= '</tr>';
 		$resultat .= '<tr>';
 		$resultat .= '<th><label for="nom">Nom</th>';
@@ -447,7 +454,7 @@ class Pays {
 		extract($pays);
 		$resultat = '';
 		$resultat .= '<h2>'.$nom2.'</h2>';
-		$resultat .= '<img style="float:right;width:20em;border:1px solid black;" src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/'.strtolower($id).'.svg" alt="Drapeau"/>';
+		$resultat .= '<img style="float:right;width:20em;border:1px solid black;" src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/'.strtolower($ISO).'.svg" alt="Drapeau"/>';
 		$resultat .= '<table class="details">';
 		$resultat .= '<tbody>';
 		$resultat .= '<tr><th>ISO</th><td>'.$id.'</td></tr>';
@@ -475,7 +482,7 @@ class Pays {
 		// Composition de l'affichage
 		$affichage = '';
 		$affichage .= '<h2>Supprimer un pays</h2>';
-		$affichage .= '<img style="float:right;width:20em;border:1px solid black;" src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/'.strtolower($id).'.svg" alt="Drapeau"/>';
+		$affichage .= '<img style="float:right;width:20em;border:1px solid black;" src="https://cdn.rawgit.com/hjnilsson/country-flags/master/svg/'.strtolower($ISO).'.svg" alt="Drapeau"/>';
 		$affichage .= '<form action="" method="post">';
 		$affichage .= '<table class="details">';
 		$affichage .= '<tbody>';
